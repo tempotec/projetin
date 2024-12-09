@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Livro Infantil Animado</title>
+    <!-- Meta tags para responsividade -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <style>
+        /* Reset de estilos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f0f8ff;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        /* Container do Livro */
+        #flipbook {
+            width: 800px;  /* Largura total do livro */
+            height: 600px; /* Altura do livro */
+            margin: auto;
+            background-color: #ccc; /* Fundo do livro */
+            /* Sombra um pouco mais suave */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        /* Estilo das Páginas */
+        #flipbook .pagina {
+            width: 400px; /* Metade da largura do livro */
+            height: 600px;
+            overflow: hidden;
+            background-color: #fff;
+            position: relative;
+            border: 1px solid #ddd;
+        }
+
+        /* Estilo das Imagens */
+        #flipbook .pagina img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Botões de Navegação */
+        .navegacao {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .navegacao button {
+            padding: 12px 24px;
+            margin: 0 15px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .navegacao button:hover,
+        .navegacao button:focus {
+            background-color: #004d40;
+            transform: scale(1.05);
+        }
+
+        .navegacao button:active {
+            transform: scale(0.95);
+        }
+
+        /* Indicador de Página */
+        #indicador-pagina {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        /* Responsividade */
+        @media (max-width: 850px) {
+            #flipbook {
+                width: 100%;
+                height: auto;
+            }
+
+            #flipbook .pagina {
+                width: 50%;
+                height: auto;
+            }
+
+            .navegacao button {
+                font-size: 16px;
+                padding: 10px 20px;
+                margin: 0 8px;
+            }
+
+            #indicador-pagina {
+                font-size: 14px;
+                padding: 6px 10px;
+            }
+        }
+
+        /* Estilos Específicos para a Capa e Última Página */
+        .capa, .ultima-pagina {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .capa h1 {
+            font-size: 3em;
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+
+        .capa img, .ultima-pagina img {
+            max-width: 80%;
+            height: auto;
+            border: 2px solid #00796b;
+            border-radius: 10px;
+        }
+
+        .ultima-pagina h2 {
+            font-size: 2em;
+            color: #00796b;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container do Livro -->
+    <div id="flipbook">
+        <!-- Capa -->
+        <div class="pagina capa">
+            <h1>As Aventuras de Beto</h1>
+            <img data-src="static/imagem/pagina_1.jpg" alt="Capa do Livro">
+        </div>
+
+        <!-- Páginas de Conteúdo -->
+        <div class="pagina"><img data-src="static/imagem/pagina_3.jpg" alt="Página 1: Introdução da história"></div>
+        <div class="pagina"><img data-src="static/imagem/pagina_4.jpg" alt="Página 2: Desenvolvimento da história"></div>
+        <div class="pagina"><img data-src="static/imagem/pagina_5.jpg" alt="Página 3: Clímax da história"></div>
+        <div class="pagina"><img data-src="static/imagem/pagina_6.jpg" alt="Página 4: Desfecho da história"></div>
+        <div class="pagina"><img data-src="static/imagem/pagina_7.jpg" alt="Página 5: Continuação da história"></div>
+        <div class="pagina"><img data-src="static/imagem/pagina_8.jpg" alt="Página 6: Desenvolvimento adicional"></div>
+        <div class="pagina"><img data-src="static/imagem/pagina_9.jpg" alt="Página 7: Conclusão da história"></div>
+        <div class="pagina"><img data-src="static/imagem/pagina_10.jpg" alt="Página 8: Resumo da história"></div>
+
+        <!-- Última Página -->
+        <div class="pagina ultima-pagina">
+            <img data-src="static/imagem/ultima_pagina.jpg" alt="Última Página">
+            <h2>FIM</h2>
+        </div>
+    </div>
+
+    <!-- Botões de Navegação -->
+    <div class="navegacao">
+        <button id="prev" aria-label="Página Anterior">⟨ Anterior</button>
+        <button id="next" aria-label="Próxima Página">Próximo ⟩</button>
+    </div>
+
+    <!-- Indicador de Página -->
+    <div id="indicador-pagina" aria-live="polite">Página 1</div>
+
+    <!-- Scripts -->
+    <!-- Carrega o jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Carrega o Turn.js -->
+    <script src="static/turn.js/turn.min.js"></script>
+    <!-- Script Principal -->
+    <script>
+        $(document).ready(function() {
+            // Inicializa o Flipbook com novas configurações para mais suavidade
+            $("#flipbook").turn({
+                width: 800,
+                height: 600,
+                autoCenter: true,
+                display: 'double',
+                duration: 1200, // Aumenta a duração da animação
+                easing: 'easeOutQuad', // Ajuste do easing para transição mais suave
+                acceleration: true,
+                gradients: true,
+                elevation: 20, // Reduzindo elevação para diminuir efeitos bruscos
+                turnCorners: 'bl,br',
+                when: {
+                    turning: function(event, page, view) {
+                        carregarPagina(page);
+                        carregarPagina(page + 1);
+                        carregarPagina(page - 1);
+                    },
+                    turned: function(event, page, view) {
+                        atualizarIndicadorPagina(page);
+                    }
+                }
+            });
+
+            // Carrega a primeira página
+            carregarPagina(1);
+            carregarPagina(2);
+
+            // Função para carregar a imagem da página
+            function carregarPagina(pagina) {
+                var totalPaginas = $("#flipbook").turn("pages");
+                if (pagina >= 1 && pagina <= totalPaginas) {
+                    var $pagina = $("#flipbook .pagina").eq(pagina - 1);
+                    var $imagem = $pagina.find("img");
+                    if (!$imagem.attr("src")) {
+                        var src = $imagem.data("src");
+                        $imagem.attr("src", src);
+                    }
+                }
+            }
+
+            // Botões de Navegação
+            $("#prev").click(function() {
+                $("#flipbook").turn("previous");
+            });
+
+            $("#next").click(function() {
+                $("#flipbook").turn("next");
+            });
+
+            // Indicador de Página
+            function atualizarIndicadorPagina(pagina) {
+                $("#indicador-pagina").text("Página " + pagina);
+            }
+
+            // Inicializa o indicador de página
+            atualizarIndicadorPagina(1);
+
+            // Navegação por teclado
+            $(document).on('keydown', function(e) {
+                if (e.key === "ArrowLeft") {
+                    $("#flipbook").turn("previous");
+                } else if (e.key === "ArrowRight") {
+                    $("#flipbook").turn("next");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
